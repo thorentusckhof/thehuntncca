@@ -455,7 +455,7 @@ td {
   background: #010101;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 200ms ease;
+  transition: opacity 600ms ease;
   z-index: 200;
 }
 

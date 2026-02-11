@@ -29,10 +29,12 @@
   }
 
   async function flashBlackout() {
+    var fadeMs = 600;
+    var holdBlackMs = 1000;
     blackout.classList.add("active");
-    await sleep(450);
+    await sleep(fadeMs + holdBlackMs);
     blackout.classList.remove("active");
-    await sleep(300);
+    await sleep(fadeMs + 300);
   }
 
   async function runIntro() {
