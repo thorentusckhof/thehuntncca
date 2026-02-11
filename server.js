@@ -385,11 +385,38 @@ app.use(
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
-  if (!req.session.userId) return res.render("intro");
+  if (!req.session.userId) return res.render("landing");
   res.redirect("/play");
 });
 
+app.get("/begin", (req, res) => {
+  if (req.session.userId) return res.redirect("/play");
+  res.render("intro");
+});
+
+app.get("/return", (req, res) => {
+  if (req.session.userId) return res.redirect("/play");
+  res.render("return", { error: null });
+});
+
+app.post(
+  "/return",
+  asyncHandler(async (req, res) => {
+    const username = String(req.body.username || "").trim();
+    if (!username) return res.render("return", { error: "Username is required." });
+
+    const userResult = await pool.query("SELECT * FROM users WHERE LOWER(username) = LOWER($1)", [username]);
+    const user = userResult.rows[0];
+    if (!user) return res.render("return", { error: "No account found with that username." });
+
+    req.session.userId = Number(user.id);
+    await ensureRun(req.session.userId);
+    return res.redirect("/play");
+  })
+);
+
 app.get("/login", (req, res) => {
+  if (req.session.userId) return res.redirect("/play");
   res.render("login", { houses: houseOptions, error: null });
 });
 
@@ -488,25 +515,49 @@ app.get(
     const gameState = await getGameState(user.id);
 
     if (gameState.allSolved) return res.redirect("/congratulations");
-    if (!gameState.firstPlayablePuzzle && gameState.blockingGate) {
-      return res.redirect(`/gate/${gameState.blockingGate.groupIndex}`);
-    }
-
-    const requestedId = Number(req.query.puzzle_id);
-    const requestedItem = gameState.sidebarItems.find(
-      (item) => item.type === "puzzle" && item.id === requestedId
-    );
-
-    const puzzle = requestedItem && requestedItem.unlocked
-      ? requestedItem
-      : gameState.firstPlayablePuzzle;
-
-    if (!puzzle) return res.redirect("/congratulations");
 
     const place = await getOverallPlace(user.id);
     const houseScores = await getHouseScores();
 
     res.render("play", {
+      user,
+      displayName: getDisplayName(user),
+      run,
+      sidebarItems: gameState.sidebarItems,
+      nextPuzzle: gameState.firstPlayablePuzzle || null,
+      blockingGate: gameState.blockingGate || null,
+      placeText: place ? formatPlace(place) : "unranked",
+      houseScores,
+      error: null
+    });
+  })
+);
+
+app.get(
+  "/puzzle/:id",
+  requireUser,
+  asyncHandler(async (req, res) => {
+    const puzzleId = Number(req.params.id);
+    const user = await getUser(req);
+    const run = await ensureRun(user.id);
+    const gameState = await getGameState(user.id);
+
+    if (gameState.allSolved) return res.redirect("/congratulations");
+
+    const puzzle = gameState.sidebarItems.find(
+      (item) => item.type === "puzzle" && item.id === puzzleId
+    );
+
+    if (!puzzle) return res.redirect("/play");
+    if (!puzzle.unlocked) {
+      if (gameState.blockingGate) return res.redirect(`/gate/${gameState.blockingGate.groupIndex}`);
+      return res.redirect("/play");
+    }
+
+    const place = await getOverallPlace(user.id);
+    const houseScores = await getHouseScores();
+
+    return res.render("puzzle", {
       user,
       displayName: getDisplayName(user),
       puzzle,
@@ -579,7 +630,7 @@ app.post(
       const run = await ensureRun(user.id);
       const place = await getOverallPlace(user.id);
       const houseScores = await getHouseScores();
-      return res.render("play", {
+      return res.render("puzzle", {
         user,
         displayName: getDisplayName(user),
         puzzle: { ...allowedPuzzle },
@@ -612,7 +663,7 @@ app.post(
     const nextPuzzle = nextState.firstPlayablePuzzle;
     if (!nextPuzzle) return res.redirect("/play");
 
-    return res.redirect(`/play?puzzle_id=${nextPuzzle.id}`);
+    return res.redirect(`/puzzle/${nextPuzzle.id}`);
   })
 );
 

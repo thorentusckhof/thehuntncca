@@ -1,0 +1,17 @@
+<%- include('partials/header', { title: 'Return', user: null, hideHeader: true }) %>
+<section class="card return-card">
+  <h1>Return</h1>
+  <p>Enter your existing username to continue.</p>
+  <% if (error) { %>
+    <div class="error"><%= error %></div>
+  <% } %>
+  <form method="post" action="/return" class="form">
+    <label>
+      Username
+      <input name="username" type="text" required />
+    </label>
+    <button type="submit">Continue</button>
+  </form>
+  <a class="link-btn" href="/begin">Need a new account? Begin</a>
+</section>
+<%- include('partials/footer') %>

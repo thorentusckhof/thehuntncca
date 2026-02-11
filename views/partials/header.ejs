@@ -8,20 +8,23 @@
   </head>
   <body>
     <div class="bg"></div>
-    <header class="site-header">
-      <div class="brand">Scavenger Hunt</div>
-      <nav class="nav">
-        <% if (user) { %>
-          <span class="nav-user">@<%= user.username %> • <%= user.house %></span>
-          <a href="/play">Play</a>
-          <a href="/account">Account</a>
-          <a href="/leaderboard">Leaderboard</a>
-          <form method="post" action="/logout" class="inline-form">
-            <button type="submit" class="link-btn">Logout</button>
-          </form>
-        <% } else { %>
-          <a href="/login">Begin</a>
-        <% } %>
-      </nav>
-    </header>
+    <% if (!hideHeader) { %>
+      <header class="site-header">
+        <div class="brand">Scavenger Hunt</div>
+        <nav class="nav">
+          <% if (user) { %>
+            <span class="nav-user">@<%= user.username %> • <%= user.house %></span>
+            <a href="/play">Play</a>
+            <a href="/account">Account</a>
+            <a href="/leaderboard">Leaderboard</a>
+            <form method="post" action="/logout" class="inline-form">
+              <button type="submit" class="link-btn">Logout</button>
+            </form>
+          <% } else { %>
+            <a href="/begin">Begin</a>
+            <a href="/return">Return</a>
+          <% } %>
+        </nav>
+      </header>
+    <% } %>
     <main class="page">

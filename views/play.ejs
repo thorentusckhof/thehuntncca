@@ -1,4 +1,4 @@
-<%- include('partials/header', { title: 'Play', user }) %>
+<%- include('partials/header', { title: 'Home', user }) %>
 <section class="dashboard">
   <aside class="card sidebar">
     <h2>Progress</h2>
@@ -25,7 +25,7 @@
 
         <% if (item.type === 'puzzle') { %>
           <% if (item.unlocked) { %>
-            <a href="/play?puzzle_id=<%= item.id %>" class="puzzle-link <%= item.id === puzzle.id ? 'active' : '' %>">
+            <a href="/puzzle/<%= item.id %>" class="puzzle-link">
               <span>G<%= item.groupIndex %> • <%= item.order_index %>. <%= item.title %></span>
               <span class="status"><%= item.solved ? 'Solved' : 'Open' %></span>
             </a>
@@ -49,47 +49,15 @@
     </section>
 
     <section class="card">
-      <div class="card-header">
-        <h1><%= puzzle.title %></h1>
-        <span class="badge">Group <%= puzzle.groupIndex %> • Clue <%= puzzle.order_index %></span>
-      </div>
-      <p class="clue"><%= puzzle.clue %></p>
-
-      <% if (puzzle.media_url) { %>
-        <% if (/\.(jpg|jpeg|png|gif|webp|svg)$/i.test(puzzle.media_url)) { %>
-          <img src="<%= puzzle.media_url %>" alt="Puzzle media" class="puzzle-media" />
-        <% } else if (/\.(mp4|webm|ogg)$/i.test(puzzle.media_url)) { %>
-          <video src="<%= puzzle.media_url %>" controls class="puzzle-media"></video>
-        <% } else if (/\.(mp3|wav|ogg)$/i.test(puzzle.media_url)) { %>
-          <audio src="<%= puzzle.media_url %>" controls class="puzzle-media"></audio>
-        <% } else { %>
-          <a href="<%= puzzle.media_url %>" target="_blank" rel="noreferrer">Open media</a>
-        <% } %>
-      <% } %>
-
-      <% if (puzzle.media_embed_html) { %>
-        <div class="puzzle-embed"><%- puzzle.media_embed_html %></div>
-      <% } %>
-
-      <% if (puzzle.custom_html) { %>
-        <div class="puzzle-custom"><%- puzzle.custom_html %></div>
-      <% } %>
-
-      <% if (error) { %>
-        <div class="error"><%= error %></div>
-      <% } %>
-
-      <% if (!puzzle.solved) { %>
-        <form method="post" action="/answer" class="form">
-          <input type="hidden" name="puzzle_id" value="<%= puzzle.id %>" />
-          <label>
-            Your answer
-            <input name="answer" type="text" autocomplete="off" required />
-          </label>
-          <button type="submit">Submit</button>
-        </form>
+      <h2>Current Progress</h2>
+      <% if (blockingGate) { %>
+        <p class="clue">A time gate is currently blocking the next puzzle group.</p>
+        <a class="btn" href="/gate/<%= blockingGate.groupIndex %>">View Gate Countdown</a>
+      <% } else if (nextPuzzle) { %>
+        <p class="clue">Your next clue is ready.</p>
+        <a class="btn" href="/puzzle/<%= nextPuzzle.id %>">Open Next Clue</a>
       <% } else { %>
-        <div class="success">This puzzle is already solved. Select another one from the sidebar.</div>
+        <p class="clue">No open clues right now. Check your gate timers.</p>
       <% } %>
     </section>
 

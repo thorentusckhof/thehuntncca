@@ -406,6 +406,28 @@ td {
   gap: 18px;
 }
 
+.landing-shell {
+  min-height: 80vh;
+  display: grid;
+  place-items: center;
+}
+
+.landing-actions {
+  display: grid;
+  gap: 16px;
+  width: min(360px, 90vw);
+}
+
+.landing-btn {
+  width: 100%;
+  text-align: center;
+}
+
+.return-card {
+  width: min(520px, 100%);
+  margin: 0 auto;
+}
+
 .intro-text {
   white-space: pre-line;
   line-height: 1;
