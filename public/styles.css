@@ -428,6 +428,11 @@ td {
   text-align: center;
 }
 
+.landing-tagline {
+  margin-top: 10px;
+  text-align: center;
+}
+
 .return-card {
   width: min(520px, 100%);
   margin: 0 auto;
