@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title><%= title || "Scavenger Hunt" %></title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="bg"></div>
+    <header class="site-header">
+      <div class="brand">Scavenger Hunt</div>
+      <nav class="nav">
+        <% if (user) { %>
+          <span class="nav-user">@<%= user.username %> • <%= user.house %></span>
+          <a href="/play">Play</a>
+          <a href="/account">Account</a>
+          <a href="/leaderboard">Leaderboard</a>
+          <form method="post" action="/logout" class="inline-form">
+            <button type="submit" class="link-btn">Logout</button>
+          </form>
+        <% } else { %>
+          <a href="/login">Begin</a>
+        <% } %>
+      </nav>
+    </header>
+    <main class="page">

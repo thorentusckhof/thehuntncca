@@ -1,0 +1,511 @@
+:root {
+  --ink: #b17b5b;
+  --paper: #010101;
+  --accent: #b17b5b;
+  --accent-dark: #2B2B2B;
+  --teal: #b17b5b;
+  --rose: #b17b5b;
+  --card: #010101;
+  --line: rgba(255, 255, 255, 0.18);
+  --shadow: rgba(1, 1, 1, 0.65);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-weight: 400;
+  color: var(--ink);
+  background: var(--paper);
+  min-height: 100vh;
+}
+
+.bg {
+  position: fixed;
+  inset: 0;
+  background: #010101;
+  z-index: -1;
+}
+
+.bg::after {
+  content: none;
+}
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 10vw 8px;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  backdrop-filter: blur(5px);
+}
+
+.brand {
+  font-family: "Helvetica Neue", "Arial Black", "Arial", sans-serif;
+  font-size: 1.9rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  color: var(--ink);
+  text-transform: uppercase;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.nav a,
+.link-btn {
+  text-decoration: none;
+  color: var(--ink);
+  font-weight: 400;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color 160ms ease;
+}
+
+.nav a:hover,
+.link-btn:hover {
+  color: var(--accent);
+}
+
+.nav-user {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  font-family: "Helvetica Neue", "Arial Black", "Arial", sans-serif;
+  font-weight: 900;
+}
+
+.page {
+  padding: 24px 10vw 64px;
+}
+
+.dashboard {
+  display: grid;
+  grid-template-columns: minmax(220px, 300px) 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.content-stack {
+  display: grid;
+  gap: 20px;
+}
+
+.card {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 28px;
+  box-shadow: 0 24px 60px var(--shadow);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(2px);
+  animation: riseIn 420ms ease;
+}
+
+.card h1 {
+  font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-weight: 400;
+  margin: 0 0 8px;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+}
+
+.card h2 {
+  margin: 0 0 10px;
+  font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-weight: 400;
+  color: var(--ink);
+  letter-spacing: 0.03em;
+}
+
+.greeting-card h1 {
+  font-size: 1.5rem;
+  line-height: 1.3;
+}
+
+.sidebar {
+  position: sticky;
+  top: 20px;
+}
+
+.puzzle-nav {
+  display: grid;
+  gap: 10px;
+}
+
+.puzzle-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--ink);
+  background: #010101;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-weight: 600;
+  transition: border-color 150ms ease, transform 150ms ease, background 150ms ease;
+}
+
+.puzzle-link:hover {
+  transform: translateY(-1px);
+  border-color: rgba(177, 123, 91, 0.85);
+}
+
+.puzzle-link .status {
+  font-size: 0.78rem;
+  opacity: 0.7;
+  font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-weight: 400;
+}
+
+.puzzle-link.active {
+  background: #010101;
+  border-color: rgba(177, 123, 91, 1);
+}
+
+.gate-link {
+  border-style: dashed;
+}
+
+.puzzle-link.locked {
+  opacity: 0.6;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.badge {
+  background: #010101;
+  color: var(--accent);
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.clue {
+  font-size: 1.15rem;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.puzzle-media {
+  margin-top: 14px;
+  width: min(100%, 720px);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  display: block;
+}
+
+.puzzle-embed,
+.puzzle-custom {
+  margin-top: 14px;
+}
+
+.gate-countdown {
+  margin-top: 16px;
+  font-size: 1.1rem;
+}
+
+.form {
+  display: grid;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.form.compact {
+  margin-top: 0;
+}
+
+label {
+  display: grid;
+  gap: 8px;
+  font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-weight: 400;
+}
+
+input,
+select,
+textarea {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: #010101;
+  color: var(--ink);
+  font-size: 1rem;
+  font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-weight: 400;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid rgba(177, 123, 91, 0.65);
+  outline-offset: 0;
+  border-color: rgba(177, 123, 91, 1);
+}
+
+button,
+.btn {
+  background: #010101;
+  color: var(--ink);
+  border: none;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-family: "Helvetica Neue", "Arial Black", "Arial", sans-serif;
+  font-weight: 900;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  width: fit-content;
+}
+
+button.danger {
+  background: #010101;
+}
+
+.inline-form {
+  display: inline;
+}
+
+.error {
+  background: #010101;
+  color: var(--ink);
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.success {
+  background: #010101;
+  color: var(--ink);
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.meta {
+  margin-top: 16px;
+  font-size: 0.9rem;
+  opacity: 0.7;
+  font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-weight: 400;
+}
+
+.finish-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.finish-grid .label {
+  font-size: 0.85rem;
+  opacity: 1;
+  color: #2B2B2B;
+}
+
+.finish-grid .value {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.leaderboard {
+  display: grid;
+  gap: 24px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 10px 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-weight: 400;
+}
+
+.puzzle-admin {
+  background: #010101;
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.puzzle-admin textarea {
+  min-height: 90px;
+}
+
+.row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.site-footer {
+  padding: 20px 10vw 40px;
+  font-size: 0.85rem;
+  opacity: 0.6;
+}
+
+.popup-wrap {
+  min-height: 60vh;
+  display: grid;
+  place-items: center;
+}
+
+.popup-card {
+  background: #010101;
+  border-radius: 18px;
+  border: 1px solid rgba(177, 123, 91, 0.6);
+  box-shadow: 0 24px 60px var(--shadow);
+  width: min(680px, 100%);
+  padding: 28px;
+}
+
+.btn.secondary {
+  background: #010101;
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: inline-block;
+}
+
+.intro-card {
+  min-height: 50vh;
+  display: grid;
+  align-content: center;
+  gap: 18px;
+}
+
+.intro-text {
+  white-space: pre-line;
+  line-height: 1;
+  font-size: 1.05rem;
+}
+
+.intro-text p {
+  margin: 0;
+  line-height: 1;
+}
+
+.sorting-flow-card {
+  min-height: 55vh;
+}
+
+.sort-stage {
+  max-width: 420px;
+}
+
+.sort-stage.fading {
+  animation: introFade 500ms ease forwards;
+}
+
+.sorting-flow-card #sorting-final-text {
+  margin-top: 8px;
+}
+
+.intro-strong {
+  font-weight: 700;
+}
+
+.fading {
+  animation: introFade 700ms ease forwards;
+}
+
+.sorting-card {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.sorting-label {
+  opacity: 0.8;
+}
+
+.sorting-result {
+  margin-top: 6px;
+  font-size: 1.05rem;
+}
+
+@keyframes introFade {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 760px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+  }
+
+  .site-header,
+  .page,
+  .site-footer {
+    padding-left: 6vw;
+    padding-right: 6vw;
+  }
+  .card {
+    padding: 22px;
+  }
+  .row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .sorting-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

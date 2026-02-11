@@ -1,0 +1,118 @@
+<%- include('partials/header', { title: 'Play', user }) %>
+<section class="dashboard">
+  <aside class="card sidebar">
+    <h2>Progress</h2>
+    <nav class="puzzle-nav">
+      <% sidebarItems.forEach(function(item) { %>
+        <% if (item.type === 'gate') { %>
+          <% if (!item.previousSolved) { %>
+            <div class="puzzle-link locked gate-link">
+              <span>Gate before Group <%= item.groupIndex %></span>
+              <span class="status">Finish earlier groups</span>
+            </div>
+          <% } else if (item.canView && item.locked) { %>
+            <a href="/gate/<%= item.groupIndex %>" class="puzzle-link gate-link">
+              <span>Gate before Group <%= item.groupIndex %></span>
+              <span class="status" data-gate-countdown="<%= item.unlockAtIso %>">Opens soon</span>
+            </a>
+          <% } else { %>
+            <div class="puzzle-link gate-link">
+              <span>Gate before Group <%= item.groupIndex %></span>
+              <span class="status">Open</span>
+            </div>
+          <% } %>
+        <% } %>
+
+        <% if (item.type === 'puzzle') { %>
+          <% if (item.unlocked) { %>
+            <a href="/play?puzzle_id=<%= item.id %>" class="puzzle-link <%= item.id === puzzle.id ? 'active' : '' %>">
+              <span>G<%= item.groupIndex %> • <%= item.order_index %>. <%= item.title %></span>
+              <span class="status"><%= item.solved ? 'Solved' : 'Open' %></span>
+            </a>
+          <% } else { %>
+            <div class="puzzle-link locked">
+              <span>G<%= item.groupIndex %> • <%= item.order_index %>. Locked</span>
+              <span class="status">Complete previous</span>
+            </div>
+          <% } %>
+        <% } %>
+      <% }) %>
+    </nav>
+  </aside>
+
+  <div class="content-stack">
+    <section class="card greeting-card">
+      <h1>Hello, <%= displayName %>! You are currently in <%= placeText %> place in the overall competition.</h1>
+      <div class="meta">
+        <span>Started: <%= new Date(run.start_time).toLocaleString() %></span>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <h1><%= puzzle.title %></h1>
+        <span class="badge">Group <%= puzzle.groupIndex %> • Clue <%= puzzle.order_index %></span>
+      </div>
+      <p class="clue"><%= puzzle.clue %></p>
+
+      <% if (puzzle.media_url) { %>
+        <% if (/\.(jpg|jpeg|png|gif|webp|svg)$/i.test(puzzle.media_url)) { %>
+          <img src="<%= puzzle.media_url %>" alt="Puzzle media" class="puzzle-media" />
+        <% } else if (/\.(mp4|webm|ogg)$/i.test(puzzle.media_url)) { %>
+          <video src="<%= puzzle.media_url %>" controls class="puzzle-media"></video>
+        <% } else if (/\.(mp3|wav|ogg)$/i.test(puzzle.media_url)) { %>
+          <audio src="<%= puzzle.media_url %>" controls class="puzzle-media"></audio>
+        <% } else { %>
+          <a href="<%= puzzle.media_url %>" target="_blank" rel="noreferrer">Open media</a>
+        <% } %>
+      <% } %>
+
+      <% if (puzzle.media_embed_html) { %>
+        <div class="puzzle-embed"><%- puzzle.media_embed_html %></div>
+      <% } %>
+
+      <% if (puzzle.custom_html) { %>
+        <div class="puzzle-custom"><%- puzzle.custom_html %></div>
+      <% } %>
+
+      <% if (error) { %>
+        <div class="error"><%= error %></div>
+      <% } %>
+
+      <% if (!puzzle.solved) { %>
+        <form method="post" action="/answer" class="form">
+          <input type="hidden" name="puzzle_id" value="<%= puzzle.id %>" />
+          <label>
+            Your answer
+            <input name="answer" type="text" autocomplete="off" required />
+          </label>
+          <button type="submit">Submit</button>
+        </form>
+      <% } else { %>
+        <div class="success">This puzzle is already solved. Select another one from the sidebar.</div>
+      <% } %>
+    </section>
+
+    <section class="card">
+      <h2>House Leaderboard</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>House</th>
+            <th>Total Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% houseScores.forEach(function(row) { %>
+            <tr>
+              <td><%= row.house %></td>
+              <td><%= row.total_score %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </section>
+  </div>
+</section>
+<script src="/countdown.js" defer></script>
+<%- include('partials/footer') %>

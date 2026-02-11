@@ -1,0 +1,22 @@
+<%- include('partials/header', { title: 'Congratulations', user }) %>
+<section class="popup-wrap">
+  <div class="popup-card">
+    <h1>Congratulations, <%= displayName %>!</h1>
+    <p>You finished <%= placeText %> place.</p>
+    <div class="finish-grid">
+      <div>
+        <div class="label">Total time</div>
+        <div class="value"><%= run.total_seconds %> seconds</div>
+      </div>
+      <div>
+        <div class="label">Score</div>
+        <div class="value"><%= run.score %></div>
+      </div>
+    </div>
+    <div class="row">
+      <a class="btn" href="/leaderboard">View Leaderboard</a>
+      <a class="btn secondary" href="/play">Back to Home</a>
+    </div>
+  </div>
+</section>
+<%- include('partials/footer') %>

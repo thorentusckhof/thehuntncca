@@ -1,0 +1,13 @@
+<%- include('partials/header', { title: 'Welcome', user: null }) %>
+<section class="card intro-card">
+  <div id="intro-phase-1" class="intro-text"></div>
+  <div id="intro-phase-2" class="intro-text hidden">
+    <p id="intro-strong" class="intro-strong"></p>
+    <p id="intro-line-2"></p>
+    <p id="intro-line-3"></p>
+    <p id="intro-line-4"></p>
+  </div>
+  <a id="intro-continue" class="btn hidden" href="/login">Continue</a>
+</section>
+<script src="/intro.js" defer></script>
+<%- include('partials/footer') %>

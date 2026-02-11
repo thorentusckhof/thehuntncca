@@ -1,0 +1,21 @@
+<%- include('partials/header', { title: 'Finished', user }) %>
+<section class="card">
+  <h1>Hunt Complete</h1>
+  <p>Well done, <%= user.username %>. Your run is complete.</p>
+  <div class="finish-grid">
+    <div>
+      <div class="label">Total time</div>
+      <div class="value"><%= run.total_seconds %> seconds</div>
+    </div>
+    <div>
+      <div class="label">Rank</div>
+      <div class="value">#<%= run.rank %></div>
+    </div>
+    <div>
+      <div class="label">Score</div>
+      <div class="value"><%= run.score %></div>
+    </div>
+  </div>
+  <a class="btn" href="/leaderboard">View Leaderboard</a>
+</section>
+<%- include('partials/footer') %>

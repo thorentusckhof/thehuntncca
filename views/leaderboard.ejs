@@ -1,0 +1,57 @@
+<%- include('partials/header', { title: 'Leaderboard', user }) %>
+<section class="card">
+  <h1>Leaderboard</h1>
+  <div class="leaderboard">
+    <div>
+      <h2>Overall</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Player</th>
+            <th>House</th>
+            <th>Time (s)</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (scores.length === 0) { %>
+            <tr><td colspan="5">No finished runs yet.</td></tr>
+          <% } %>
+          <% scores.forEach(function(row) { %>
+            <tr>
+              <td><%= row.rank %></td>
+              <td><%= [row.first_name, row.last_name].filter(Boolean).join(' ') || row.username %></td>
+              <td><%= row.house %></td>
+              <td><%= row.total_seconds %></td>
+              <td><%= row.score %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h2>House Scores</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>House</th>
+            <th>Total Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (houseScores.length === 0) { %>
+            <tr><td colspan="2">No scores yet.</td></tr>
+          <% } %>
+          <% houseScores.forEach(function(row) { %>
+            <tr>
+              <td><%= row.house %></td>
+              <td><%= row.total_score %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+<%- include('partials/footer') %>

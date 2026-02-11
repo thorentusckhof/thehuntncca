@@ -1,0 +1,38 @@
+<%- include('partials/header', { title: 'Sorting Hat', user: null }) %>
+<section class="card sorting-flow-card">
+  <% if (error) { %>
+    <div class="error"><%= error %></div>
+  <% } %>
+
+  <div id="sorting-prompt" class="intro-text"></div>
+
+  <form method="post" action="/login" class="form" id="sorting-flow-form" novalidate>
+    <input id="username-input" name="username" type="hidden" />
+
+    <label id="first-name-stage" class="sort-stage hidden">
+      First Name
+      <input id="first-name-input" name="first_name" type="text" autocomplete="given-name" />
+    </label>
+
+    <label id="last-name-stage" class="sort-stage hidden">
+      Last Name
+      <input id="last-name-input" name="last_name" type="text" autocomplete="family-name" />
+    </label>
+
+    <label id="house-stage" class="sort-stage hidden">
+      Select Your Assigned House
+      <select id="house-input" name="house">
+        <option value="">Choose house</option>
+        <% houses.forEach(function(h) { %>
+          <option value="<%= h %>"><%= h %></option>
+        <% }) %>
+      </select>
+    </label>
+
+    <div id="sorting-final-text" class="intro-text hidden"></div>
+
+    <button id="enter-hunt" type="submit" class="hidden">Enter the Hunt</button>
+  </form>
+</section>
+<script src="/sorting-flow.js" defer></script>
+<%- include('partials/footer') %>

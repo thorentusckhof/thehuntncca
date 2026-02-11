@@ -1,0 +1,23 @@
+<%- include('partials/header', { title: 'Account', user }) %>
+<section class="card">
+  <h1>Account</h1>
+  <p>Set the name you want shown for your identity in the hunt.</p>
+  <% if (error) { %>
+    <div class="error"><%= error %></div>
+  <% } %>
+  <% if (success) { %>
+    <div class="success"><%= success %></div>
+  <% } %>
+  <form method="post" action="/account" class="form">
+    <label>
+      First Name
+      <input name="first_name" type="text" required value="<%= user.first_name || '' %>" />
+    </label>
+    <label>
+      Last Name
+      <input name="last_name" type="text" required value="<%= user.last_name || '' %>" />
+    </label>
+    <button type="submit">Save Account</button>
+  </form>
+</section>
+<%- include('partials/footer') %>

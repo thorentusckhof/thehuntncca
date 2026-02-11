@@ -1,0 +1,154 @@
+<%- include('partials/header', { title: 'Admin', user: null }) %>
+<section class="card">
+  <div class="card-header">
+    <h1>Admin Console</h1>
+    <form method="post" action="/admin/logout" class="inline-form">
+      <button type="submit" class="link-btn">Logout</button>
+    </form>
+  </div>
+
+  <% if (error) { %>
+    <div class="error"><%= error %></div>
+  <% } %>
+
+  <h2>Create New Puzzle</h2>
+  <form method="post" action="/admin/puzzles" class="form">
+    <label>
+      Group
+      <input name="group_index" type="number" required min="1" value="1" />
+    </label>
+    <label>
+      Order (within group)
+      <input name="order_index" type="number" required min="1" />
+    </label>
+    <label>
+      Title
+      <input name="title" type="text" required />
+    </label>
+    <label>
+      Clue Text
+      <textarea name="clue" rows="4" required></textarea>
+    </label>
+    <label>
+      Answer
+      <input name="answer" type="text" required />
+    </label>
+    <label>
+      Media URL (image/video/audio/link)
+      <input name="media_url" type="text" />
+    </label>
+    <label>
+      Media Embed HTML (optional)
+      <textarea name="media_embed_html" rows="4" placeholder="iframe/embed HTML"></textarea>
+    </label>
+    <label>
+      Custom HTML Block (optional code)
+      <textarea name="custom_html" rows="5" placeholder="Custom HTML shown on this puzzle page"></textarea>
+    </label>
+    <button type="submit">Add Puzzle</button>
+  </form>
+
+  <h2>Time Gates</h2>
+  <form method="post" action="/admin/gates" class="form">
+    <label>
+      Gate for Group
+      <input name="group_index" type="number" required min="2" />
+    </label>
+    <label>
+      Gate Title
+      <input name="title" type="text" required />
+    </label>
+    <label>
+      Unlock At
+      <input name="unlock_at" type="datetime-local" required />
+    </label>
+    <label>
+      Gate Page Content (HTML allowed)
+      <textarea name="content_html" rows="5" required></textarea>
+    </label>
+    <button type="submit">Create/Upsert Gate</button>
+  </form>
+
+  <h2>Existing Gates</h2>
+  <% if (gates.length === 0) { %>
+    <p>No gates yet.</p>
+  <% } %>
+  <% gates.forEach(function(g) { %>
+    <div class="puzzle-admin">
+      <form method="post" action="/admin/gates/<%= g.id %>" class="form compact">
+        <label>
+          Group
+          <input name="group_index" type="number" value="<%= g.group_index %>" min="2" required />
+        </label>
+        <label>
+          Title
+          <input name="title" type="text" value="<%= g.title %>" required />
+        </label>
+        <label>
+          Unlock At
+          <input name="unlock_at" type="datetime-local" value="<%= new Date(g.unlock_at).toISOString().slice(0,16) %>" required />
+        </label>
+        <label>
+          Content HTML
+          <textarea name="content_html" rows="4" required><%= g.content_html %></textarea>
+        </label>
+        <div class="row">
+          <button type="submit">Save Gate</button>
+        </div>
+      </form>
+      <form method="post" action="/admin/gates/<%= g.id %>/delete" class="inline-form">
+        <button type="submit" class="danger">Delete Gate</button>
+      </form>
+    </div>
+  <% }) %>
+
+  <h2>Existing Puzzles</h2>
+  <% if (puzzles.length === 0) { %>
+    <p>No puzzles yet.</p>
+  <% } %>
+  <% puzzles.forEach(function(p) { %>
+    <div class="puzzle-admin">
+      <form method="post" action="/admin/puzzles/<%= p.id %>" class="form compact">
+        <label>
+          Group
+          <input name="group_index" type="number" value="<%= p.group_index %>" min="1" required />
+        </label>
+        <label>
+          Order
+          <input name="order_index" type="number" value="<%= p.order_index %>" min="1" required />
+        </label>
+        <label>
+          Title
+          <input name="title" type="text" value="<%= p.title %>" required />
+        </label>
+        <label>
+          Clue Text
+          <textarea name="clue" rows="3" required><%= p.clue %></textarea>
+        </label>
+        <label>
+          Answer
+          <input name="answer" type="text" value="<%= p.answer %>" required />
+        </label>
+        <label>
+          Media URL
+          <input name="media_url" type="text" value="<%= p.media_url || '' %>" />
+        </label>
+        <label>
+          Media Embed HTML
+          <textarea name="media_embed_html" rows="3"><%= p.media_embed_html || '' %></textarea>
+        </label>
+        <label>
+          Custom HTML
+          <textarea name="custom_html" rows="4"><%= p.custom_html || '' %></textarea>
+        </label>
+        <div class="row">
+          <button type="submit">Save Puzzle</button>
+        </div>
+      </form>
+      <form method="post" action="/admin/puzzles/<%= p.id %>/delete" class="inline-form">
+        <button type="submit" class="danger">Delete Puzzle</button>
+      </form>
+    </div>
+  <% }) %>
+</section>
+<%- include('partials/footer') %>
