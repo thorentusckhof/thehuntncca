@@ -42,6 +42,23 @@
     var phase1Speed = Math.round(32 * slowFactor);
     var phase2Speed = Math.round(28 * slowFactor);
 
+    // Hard reset to prevent stale text flashes on reload/back navigation.
+    phase1.textContent = "";
+    strongLine.textContent = "";
+    line2.textContent = "";
+    line3.textContent = "";
+    line4.textContent = "";
+    phase1.classList.remove("fading");
+    phase2.classList.remove("fading");
+    phase1.classList.add("hidden");
+    phase2.classList.add("hidden");
+    continueButton.classList.add("hidden");
+    continueButton.classList.remove("visible");
+    blackout.classList.remove("active");
+
+    await sleep(20);
+    phase1.classList.remove("hidden");
+
     await typeLine(phase1, "Welcome,\nDragonslayer.", phase1Speed);
     await sleep(2000);
     await flashBlackout();
