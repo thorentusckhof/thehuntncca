@@ -404,6 +404,11 @@ td {
   display: grid;
   align-content: center;
   gap: 18px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .landing-shell {
@@ -437,6 +442,20 @@ td {
 .intro-text p {
   margin: 0;
   line-height: 1;
+}
+
+.intro-blackout {
+  position: fixed;
+  inset: 0;
+  background: #010101;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease;
+  z-index: 200;
+}
+
+.intro-blackout.active {
+  opacity: 1;
 }
 
 .sorting-flow-card {
