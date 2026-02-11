@@ -370,6 +370,8 @@ td {
   padding: 20px 10vw 40px;
   font-size: 0.85rem;
   opacity: 0.6;
+  position: relative;
+  z-index: 300;
 }
 
 .popup-wrap {
@@ -403,6 +405,7 @@ td {
   min-height: 50vh;
   display: grid;
   align-content: center;
+  justify-items: center;
   gap: 18px;
   background: transparent;
   border: none;
@@ -428,20 +431,17 @@ td {
   text-align: center;
 }
 
-.landing-tagline {
-  margin-top: 10px;
-  text-align: center;
-}
-
 .return-card {
   width: min(520px, 100%);
   margin: 0 auto;
+  text-align: center;
 }
 
 .intro-text {
   white-space: pre-line;
   line-height: 1;
   font-size: 1.05rem;
+  text-align: center;
 }
 
 .intro-text p {
@@ -465,10 +465,12 @@ td {
 
 .sorting-flow-card {
   min-height: 55vh;
+  text-align: center;
 }
 
 .sort-stage {
-  max-width: 420px;
+  width: min(420px, 100%);
+  margin-inline: auto;
 }
 
 .sort-stage.fading {
@@ -477,6 +479,20 @@ td {
 
 .sorting-flow-card #sorting-final-text {
   margin-top: 8px;
+}
+
+.sorting-flow-card .form {
+  justify-items: center;
+}
+
+.sorting-flow-card .form label {
+  text-align: center;
+}
+
+.sorting-flow-card input,
+.sorting-flow-card select,
+.return-card input {
+  text-align: center;
 }
 
 .intro-strong {
