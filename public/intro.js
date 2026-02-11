@@ -42,18 +42,19 @@
     var phase1Speed = Math.round(32 * slowFactor);
     var phase2Speed = Math.round(28 * slowFactor);
 
-    phase1.textContent = "";
-    await typeAppend(phase1, "Welcome,\n", phase1Speed);
-    await typeAppend(phase1, "Dragonslayer.\n\n", phase1Speed);
-    await typeAppend(phase1, "You've found the entrance to The Examination.", phase1Speed);
+    await typeLine(phase1, "Welcome,\nDragonslayer.", phase1Speed);
     await sleep(2000);
     await flashBlackout();
 
-    phase1.textContent += "\nIt's not too late to turn back.";
+    await typeLine(phase1, "You've found the entrance to The Examination.", phase1Speed);
     await sleep(2000);
     await flashBlackout();
 
-    phase1.textContent += "\nbut, quitting now was never really an option, was it?";
+    await typeLine(phase1, "It's not too late to turn back.", phase1Speed);
+    await sleep(2000);
+    await flashBlackout();
+
+    await typeLine(phase1, "but, quitting now was never really an option, was it?", phase1Speed);
     await sleep(2000);
     await flashBlackout();
 
