@@ -37,6 +37,17 @@
     await sleep(fadeMs + 300);
   }
 
+  async function blackoutToNextLine(el, text, speed) {
+    var fadeMs = 600;
+    var holdBlackMs = 1000;
+    blackout.classList.add("active");
+    await sleep(fadeMs + holdBlackMs);
+    el.textContent = "";
+    blackout.classList.remove("active");
+    await sleep(fadeMs + 120);
+    await typeLine(el, text, speed);
+  }
+
   async function runIntro() {
     var slowFactor = 2 / 0.6;
     var phase1Speed = Math.round(32 * slowFactor);
@@ -61,24 +72,19 @@
 
     await typeLine(phase1, "Welcome,\nDragonslayer.", phase1Speed);
     await sleep(2000);
-    await flashBlackout();
-
-    await typeLine(phase1, "You've found the entrance to The Examination.", phase1Speed);
+    await blackoutToNextLine(phase1, "You've found the entrance to The Examination.", phase1Speed);
     await sleep(2000);
-    await flashBlackout();
-
-    await typeLine(phase1, "It's not too late to turn back.", phase1Speed);
+    await blackoutToNextLine(phase1, "It's not too late to turn back.", phase1Speed);
     await sleep(2000);
-    await flashBlackout();
-
-    await typeLine(phase1, "but, quitting now was never really an option, was it?", phase1Speed);
+    await blackoutToNextLine(phase1, "but, quitting now was never really an option, was it?", phase1Speed);
     await sleep(2000);
-    await flashBlackout();
+    blackout.classList.add("active");
+    await sleep(1600);
 
-    phase1.classList.add("fading");
-    await sleep(700);
     phase1.classList.add("hidden");
     phase2.classList.remove("hidden");
+    blackout.classList.remove("active");
+    await sleep(700);
 
     await typeLine(strongLine, "Before you enter, understand this:", Math.round(30 * slowFactor));
     await sleep(300);
