@@ -44,12 +44,15 @@
     await typeAppend(phase1, "Welcome,\n", phase1Speed);
     await typeAppend(phase1, "Dragonslayer.\n\n", phase1Speed);
     await typeAppend(phase1, "You've found the entrance to The Examination.", phase1Speed);
+    await sleep(2000);
     await flashBlackout();
 
     phase1.textContent += "\nIt's not too late to turn back.";
+    await sleep(2000);
     await flashBlackout();
 
     phase1.textContent += "\nbut, quitting now was never really an option, was it?";
+    await sleep(2000);
     await flashBlackout();
 
     phase1.classList.add("fading");
